@@ -1,334 +1,460 @@
-# 🚀 ClaimFlow Pro - OdooX VIT Pune Hackathon
+# ClaimPilot Backend API
 
-**Enterprise Expense Reimbursement System with AI-Powered Receipt Scanning & Approval Workflows**
+Enterprise-grade expense reimbursement backend built with Node.js, TypeScript, Express, Prisma, and MySQL.
 
----
+## Features
 
-## 🎯 Problem Statement
+- 🔐 **JWT Authentication** - Secure token-based auth with refresh tokens
+- 👥 **Multi-Tenant Architecture** - Company-based workspace isolation
+- 🎭 **Role-Based Access Control (RBAC)** - ADMIN, MANAGER, EMPLOYEE roles
+- 💰 **Expense Management** - Full CRUD operations for expense claims
+- 💱 **Currency Conversion** - Real-time exchange rates via public APIs
+- 📸 **OCR Receipt Scanning** - Tesseract.js integration for receipt data extraction
+- ✅ **Approval Workflow Engine** - Sequential, Conditional, and Hybrid approval flows
+- 📊 **Analytics & Reporting** - Comprehensive expense analytics
+- 📝 **Audit Logging** - Complete audit trail for compliance
+- 🔔 **Notifications** - In-app notification system
 
-Manual expense reimbursement processes are slow, error-prone, and lack transparency. Employees struggle with receipt management, finance teams drown in approval emails, and managers have no visibility into spending patterns.
+## Tech Stack
 
-## 💡 Our Solution
+- **Runtime:** Node.js
+- **Language:** TypeScript
+- **Framework:** Express.js
+- **ORM:** Prisma 7
+- **Database:** MySQL 8.0+
+- **Authentication:** JWT (jsonwebtoken)
+- **Password Hashing:** bcrypt
+- **Validation:** Zod
+- **File Upload:** Multer
+- **OCR:** Tesseract.js
+- **External APIs:** REST Countries, ExchangeRate-API
 
-**ClaimFlow Pro** - A full-stack expense management system featuring:
+## Prerequisites
 
-- 📸 **AI Receipt Scanning** - OCR automatically extracts amount, date, merchant from receipts
-- ✅ **Smart Approval Workflows** - Configurable multi-level approval chains  
-- 💱 **Auto Currency Conversion** - Real-time exchange rates for international expenses
-- 📊 **Analytics Dashboard** - Real-time insights into company spending
-- 🔐 **Enterprise Security** - JWT auth, role-based access, audit trails
-- 🐳 **Docker Ready** - One-command deployment with PostgreSQL
+- Node.js 18+ 
+- MySQL 8.0+
+- npm or bun
 
----
+## Installation
 
-## 🛠️ Tech Stack
-
-### Frontend
-- React 18 + TypeScript
-- Vite (Lightning-fast dev server)
-- TailwindCSS + shadcn/ui components
-- React Router for navigation
-- Recharts for analytics
-
-### Backend
-- Node.js + Express
-- TypeScript
-- Prisma ORM
-- PostgreSQL database
-- JWT authentication
-- Tesseract.js for OCR
-- Zod validation
-
-### DevOps
-- Docker + Docker Compose
-- GitHub Actions (CI/CD ready)
-
----
-
-## 🏃 Quick Start
-
-### Prerequisites
-- Node.js 18+
-- PostgreSQL 16+ OR Docker Desktop
-
-### Option 1: Docker (Recommended - 2 minutes)
+### 1. Install Dependencies
 
 ```bash
-# Clone and enter directory
-git clone https://github.com/ESHANK1507/OdooX-VIT-Pune-Hackathon.git
-cd OdooX-VIT-Pune-Hackathon
-
-# Start everything with one command
-docker-compose up --build -d
-
-# Check status
-docker-compose ps
-docker-compose logs -f
-```
-
-✅ **Backend:** http://localhost:5000  
-✅ **Database:** PostgreSQL on port 5432
-
-### Option 2: Manual Setup
-
-#### Backend (Terminal 1)
-```bash
-cd backend
-
-# Install dependencies
 npm install
-
-# Setup environment
-copy .env.example .env
-# Edit DATABASE_URL in .env
-
-# Setup database
-npm run prisma:generate
-npm run prisma:migrate
-
-# Start server
-npm run dev
 ```
 
-#### Frontend (Terminal 2)
-```bash
-# Install dependencies
-npm install
+### 2. Configure Environment Variables
 
-# Start dev server
-npm run dev
-```
-
-✅ **Frontend:** http://localhost:8080
-
----
-
-## 📁 Project Structure
-
-```
-OdooX-VIT-Pune-Hackathon/
-├── backend/                 # Express API server
-│   ├── src/
-│   │   ├── controllers/    # Request handlers
-│   │   ├── services/       # Business logic
-│   │   ├── routes/         # API endpoints
-│   │   ├── middlewares/    # Auth, validation
-│   │   └── utils/          # Helpers
-│   ├── prisma/
-│   │   └── schema.prisma   # Database models
-│   ├── Dockerfile
-│   └── README.md
-├── src/                    # React frontend
-│   ├── components/
-│   ├── pages/
-│   ├── context/
-│   └── hooks/
-├── docker-compose.yml      # Docker orchestration
-├── DOCKER_START.md         # Docker guide
-└── README.md              # This file
-```
-
----
-
-## 🎭 User Roles
-
-### 👤 Employee
-- Submit expense claims
-- Upload receipts (auto-OCR)
-- Track approval status
-- View personal expense history
-
-### 👨‍💼 Manager
-- Approve/reject team expenses
-- View team spending analytics
-- Configure approval workflows
-
-### 👑 Admin
-- Full system access
-- User management
-- Company settings
-- Audit logs
-- Advanced analytics
-
----
-
-## 🔥 Key Features
-
-### 1. Smart Receipt Scanner
-Upload a receipt → OCR extracts:
-- Amount
-- Date
-- Merchant name
-- Category
-- Confidence score
-
-### 2. Approval Workflow Engine
-Configure custom approval chains:
-- **Sequential:** Manager → Finance → Director
-- **Conditional:** 60% approvers must approve
-- **Hybrid:** Manager required + 2 of 3 finance team
-
-### 3. Multi-Currency Support
-- Auto-detect country currency
-- Real-time exchange rates
-- Store both original & converted amounts
-
-### 4. Analytics Dashboard
-Real-time insights:
-- Monthly spending trends
-- Category breakdown
-- Top spenders
-- Approval bottlenecks
-
----
-
-## 🗄️ Database Schema
-
-Core tables:
-- `companies` - Organization data
-- `users` - All login users with roles
-- `expense_claims` - Submitted expenses
-- `approval_rules` - Workflow configuration
-- `approval_steps` - Ordered approval steps
-- `approval_actions` - Approval decisions
-- `audit_logs` - System audit trail
-- `notifications` - In-app alerts
-
----
-
-## 🧪 Testing
-
-```bash
-# Run tests
-npm test
-
-# Test coverage
-npm run test:coverage
-```
-
----
-
-## 📝 API Endpoints
-
-### Authentication
-- `POST /api/auth/signup` - Register new company + admin
-- `POST /api/auth/login` - User login
-- `POST /api/auth/refresh` - Refresh access token
-- `GET /api/auth/me` - Current user profile
-
-### Expenses
-- `GET /api/expenses` - List expenses
-- `POST /api/expenses` - Create expense claim
-- `POST /api/expenses/:id/submit` - Submit for approval
-- `POST /api/expenses/:id/approve` - Approve expense
-- `POST /api/expenses/:id/reject` - Reject expense
-
-### OCR
-- `POST /api/ocr/receipt` - Upload & scan receipt
-
-### Analytics
-- `GET /api/analytics/summary` - Dashboard summary
-- `GET /api/analytics/monthly` - Monthly trends
-- `GET /api/analytics/bottlenecks` - Approval delays
-
-📖 **Full API docs:** [backend/README.md](backend/README.md)
-
----
-
-## 🐛 Troubleshooting
-
-### Port already in use
-```bash
-# Change PORT in backend/.env
-PORT=5001
-
-# Change database port in docker-compose.yml
-ports:
-  - "5433:5432"
-```
-
-### Database connection error
-```bash
-# Make sure PostgreSQL is running
-# Or use Docker:
-docker-compose up postgres -d
-```
-
-### Permission denied (uploads)
-```bash
-# Create uploads directory
-mkdir -p backend/uploads/receipts
-```
-
----
-
-## 🚀 Deployment
-
-### Production Environment Variables
+Copy `.env.example` to `.env` and update:
 
 ```env
-# backend/.env
-NODE_ENV=production
-DATABASE_URL=postgresql://user:pass@host:5432/claimpilot
-JWT_ACCESS_SECRET=strong_random_secret
-JWT_REFRESH_SECRET=another_strong_secret
-FRONTEND_URL=https://yourdomain.com
+PORT=5000
+NODE_ENV=development
+DATABASE_URL=mysql://root:password@localhost:3306/claimpilot
+JWT_ACCESS_SECRET=your_super_secret_access_key_change_in_production
+JWT_REFRESH_SECRET=your_super_secret_refresh_key_change_in_production
+FRONTEND_URL=http://localhost:3000
+UPLOAD_DIR=./uploads
+OCR_LANG=eng
 ```
 
-### Deploy with Docker
+### 3. Setup MySQL Database
+
+Create the database:
+
+```sql
+CREATE DATABASE claimpilot CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+### 4. Run Database Migrations
 
 ```bash
-docker-compose -f docker-compose.prod.yml up -d
+npm run prisma:migrate
 ```
 
----
+This will:
+- Create all tables in MySQL
+- Set up indexes and foreign keys
+- Seed initial data (if any)
 
-## 🤝 Contributing
+### 5. Generate Prisma Client
 
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open Pull Request
+```bash
+npm run prisma:generate
+```
 
----
+### 6. Start Development Server
 
-## 📄 License
+```bash
+npm run dev
+```
 
-MIT License - feel free to use this project for your hackathon!
+The server will start on `http://localhost:5000`
 
----
+## Project Structure
 
-## 👥 Team
+```
+backend/
+├── src/
+│   ├── config/          # Application configuration
+│   ├── controllers/     # Request handlers
+│   ├── services/        # Business logic
+│   ├── routes/          # API route definitions
+│   ├── middlewares/     # Auth, validation, error handling
+│   ├── validators/      # Zod schemas
+│   ├── models/          # Database models (Prisma)
+│   ├── utils/           # Helper functions
+│   ├── jobs/            # Background tasks
+│   ├── types/           # TypeScript types
+│   ├── lib/             # Third-party library configs
+│   ├── app.ts           # Express app setup
+│   └── server.ts        # Server entry point
+├── prisma/
+│   ├── schema.prisma    # Database schema
+│   └── migrations/      # Database migrations
+├── uploads/
+│   └── receipts/        # Uploaded receipt images
+├── .env                 # Environment variables
+├── .env.example         # Environment template
+├── package.json
+├── tsconfig.json
+└── README.md
+```
 
-Built with ❤️ for OdooX VIT Pune Hackathon 2024
+## Database Schema
 
----
+### Core Tables
 
-## 🎯 Demo Credentials
+1. **companies** - Organization/workspace data
+2. **users** - All login users with roles
+3. **user_manager_map** - Reporting relationships
+4. **expense_claims** - Expense submissions
+5. **expense_ocr_data** - OCR extracted data
+6. **approval_rules** - Company workflow configurations
+7. **approval_steps** - Ordered approval steps
+8. **approval_actions** - Approval/rejection decisions
+9. **audit_logs** - System audit trail
+10. **notifications** - User notifications
 
-### Admin Account
-- Email: admin@company.com
-- Password: admin123
+### User Roles
 
-### Manager Account  
-- Email: manager@company.com
-- Password: manager123
+- **ADMIN** - Full company access, user management, workflow configuration
+- **MANAGER** - Team expense oversight, approval authority
+- **EMPLOYEE** - Submit and track own expenses
 
-### Employee Account
-- Email: employee@company.com
-- Password: employee123
+## API Endpoints
 
----
+### Authentication
 
-## 📞 Support
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| POST | `/api/auth/signup` | Register new company + admin | No |
+| POST | `/api/auth/login` | User login | No |
+| POST | `/api/auth/refresh` | Refresh access token | No |
+| GET | `/api/auth/me` | Get current user profile | Yes |
+| POST | `/api/auth/logout` | Logout user | Yes |
 
-- Documentation: `/backend/README.md`
-- Docker Guide: `/DOCKER_START.md`
-- Issues: GitHub Issues tab
+### Users (Protected)
 
----
+| Method | Endpoint | Description | Role |
+|--------|----------|-------------|------|
+| GET | `/api/users` | List company users | ADMIN |
+| POST | `/api/users` | Create new user | ADMIN |
+| GET | `/api/users/:id` | Get user details | ADMIN |
+| PATCH | `/api/users/:id` | Update user | ADMIN |
+| DELETE | `/api/users/:id` | Delete user | ADMIN |
+| PATCH | `/api/users/:id/role` | Change user role | ADMIN |
+| PATCH | `/api/users/:id/manager` | Assign manager | ADMIN |
 
-**Made with ⚡ Node.js, React, PostgreSQL, and lots of ☕**
+### Expenses (Protected)
 
-Good luck for the hackathon! 🚀
+| Method | Endpoint | Description | Role |
+|--------|----------|-------------|------|
+| GET | `/api/expenses` | List expenses (filtered by role) | All |
+| POST | `/api/expenses` | Create expense | EMPLOYEE+ |
+| GET | `/api/expenses/:id` | Get expense details | All |
+| PATCH | `/api/expenses/:id` | Update draft expense | Owner |
+| DELETE | `/api/expenses/:id` | Delete draft expense | Owner |
+| POST | `/api/expenses/:id/submit` | Submit for approval | Owner |
+| POST | `/api/expenses/:id/approve` | Approve expense | Approver |
+| POST | `/api/expenses/:id/reject` | Reject expense | Approver |
+
+### Approval Workflows (Protected)
+
+| Method | Endpoint | Description | Role |
+|--------|----------|-------------|------|
+| GET | `/api/workflows` | List approval rules | ADMIN |
+| POST | `/api/workflows` | Create workflow rule | ADMIN |
+| PATCH | `/api/workflows/:id` | Update workflow | ADMIN |
+| DELETE | `/api/workflows/:id` | Delete workflow | ADMIN |
+| POST | `/api/workflows/:id/steps` | Add approval steps | ADMIN |
+
+### OCR (Protected)
+
+| Method | Endpoint | Description | Role |
+|--------|----------|-------------|------|
+| POST | `/api/ocr/receipt` | Upload & scan receipt | All |
+
+### Analytics (Protected)
+
+| Method | Endpoint | Description | Role |
+|--------|----------|-------------|------|
+| GET | `/api/analytics/summary` | Dashboard summary | All |
+| GET | `/api/analytics/monthly` | Monthly trends | ADMIN+ |
+| GET | `/api/analytics/approval-bottlenecks` | Bottleneck analysis | ADMIN |
+
+### Audit Logs (Protected)
+
+| Method | Endpoint | Description | Role |
+|--------|----------|-------------|------|
+| GET | `/api/audit-logs` | View audit trail | ADMIN |
+
+## API Usage Examples
+
+### Signup (Create Company + Admin)
+
+```bash
+curl -X POST http://localhost:5000/api/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Doe",
+    "email": "john@company.com",
+    "password": "securepass123",
+    "companyName": "Acme Corp",
+    "countryCode": "US"
+  }'
+```
+
+Response includes:
+- User info + access token + refresh token
+- Company info with default currency
+
+### Login
+
+```bash
+curl -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "john@company.com",
+    "password": "securepass123"
+  }'
+```
+
+### Create Expense
+
+```bash
+curl -X POST http://localhost:5000/api/expenses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -d '{
+    "amountOriginal": 150.00,
+    "currencyOriginal": "USD",
+    "category": "MEALS",
+    "description": "Client dinner meeting",
+    "merchantName": "Restaurant ABC",
+    "expenseDate": "2024-03-29"
+  }'
+```
+
+Auto-converts to company currency using live exchange rates.
+
+### Upload Receipt with OCR
+
+```bash
+curl -X POST http://localhost:5000/api/ocr/receipt \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -F "file=@receipt.jpg"
+```
+
+Returns extracted:
+- Amount
+- Date
+- Merchant
+- Category
+- Raw text + confidence score
+
+### Create Approval Workflow
+
+Sequential: Manager → Finance → Director
+
+```bash
+curl -X POST http://localhost:5000/api/workflows \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -d '{
+    "name": "Standard Approval Flow",
+    "ruleType": "SEQUENTIAL",
+    "managerFirstEnabled": true,
+    "steps": [
+      {
+        "stepOrder": 1,
+        "approverRole": "MANAGER"
+      },
+      {
+        "stepOrder": 2,
+        "approverRole": "FINANCE"
+      },
+      {
+        "stepOrder": 3,
+        "approverRole": "DIRECTOR",
+        "isTerminalStep": true
+      }
+    ]
+  }'
+```
+
+## Approval Workflow Engine
+
+### Rule Types
+
+1. **SEQUENTIAL** - Steps must be approved in order
+2. **CONDITIONAL** - Percentage-based or specific approver rules
+3. **HYBRID** - Combination of both
+
+### Workflow Logic
+
+When an expense is submitted:
+
+1. System finds active approval rule for company
+2. Checks if manager-first is enabled
+3. Routes to first approver
+4. On approval, moves to next step
+5. When all steps complete → status = APPROVED
+6. If any step rejected → status = REJECTED
+
+### Example Flows
+
+**Sequential:**
+```
+Employee → Manager → Finance → Director → APPROVED
+```
+
+**Conditional (60% threshold):**
+```
+Approver 1: ✓ Approved
+Approver 2: ✗ Rejected  
+Approver 3: ✓ Approved
+→ 66% approved → AUTO-APPROVED
+```
+
+**Hybrid:**
+```
+Manager (required) → Then 2 of 3 Finance team → APPROVED
+```
+
+## Currency Handling
+
+### Country/Currency Detection
+
+During signup, uses [REST Countries API](https://restcountries.com/) to:
+- Validate country code
+- Fetch primary currency
+- Set company default
+
+### Exchange Rate Conversion
+
+Uses [ExchangeRate-API](https://api.exchangerate-api.com/) to:
+- Convert expense amounts to company currency
+- Store rate at submission time
+- Never recalculate historical data
+
+Example:
+```json
+{
+  "amountOriginal": 100,
+  "currencyOriginal": "EUR",
+  "amountCompanyCurrency": 108.50,
+  "companyCurrency": "USD",
+  "exchangeRate": 1.085
+}
+```
+
+## Security Features
+
+- ✅ Password hashing with bcrypt
+- ✅ JWT access + refresh tokens
+- ✅ Role-based middleware protection
+- ✅ Company scoping (data isolation)
+- ✅ Input validation with Zod
+- ✅ Helmet security headers
+- ✅ CORS configuration
+- ✅ Rate limiting (100 req/15min)
+- ✅ SQL injection prevention (Prisma)
+
+## Testing
+
+Check health:
+
+```bash
+curl http://localhost:5000/health
+```
+
+## Scripts
+
+```bash
+# Development
+npm run dev          # Start with hot reload
+
+# Production
+npm run build        # Compile TypeScript
+npm run start        # Run compiled JS
+
+# Database
+npm run prisma:generate     # Generate Prisma client
+npm run prisma:migrate      # Run migrations (dev)
+npm run prisma:migrate:prod # Run migrations (prod)
+npm run prisma:studio       # Open Prisma Studio GUI
+```
+
+## Troubleshooting
+
+### Database Connection Error
+
+Ensure MySQL is running and `.env` has correct credentials:
+
+```bash
+mysql -u root -p
+# Check if claimpilot database exists
+```
+
+### Port Already in Use
+
+Change `PORT` in `.env`:
+
+```env
+PORT=5001
+```
+
+### Prisma Client Errors
+
+Regenerate Prisma client:
+
+```bash
+npm run prisma:generate
+```
+
+## Production Deployment
+
+1. Set strong JWT secrets
+2. Use production database URL
+3. Set `NODE_ENV=production`
+4. Configure CORS for your domain
+5. Enable HTTPS
+6. Set up proper logging
+7. Configure backup strategy
+8. Monitor performance
+
+## Next Steps
+
+- [ ] Email notifications (nodemailer/SendGrid)
+- [ ] File storage (AWS S3/Azure Blob)
+- [ ] Advanced OCR (Google Vision API)
+- [ ] Real-time updates (Socket.IO)
+- [ ] PDF generation for reports
+- [ ] Scheduled jobs (node-cron)
+- [ ] API documentation (Swagger/OpenAPI)
+- [ ] Unit/Integration tests
+
+## License
+
+ISC
